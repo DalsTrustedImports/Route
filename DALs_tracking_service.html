@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dal's Trusted Imports | Global Tracking</title>
+    <style>
+        /* --- 2030 CORE VARIABLES --- */
+        :root {
+            --brand-orange: #e65100;
+            --brand-orange-light: #ff9800;
+            --brand-glow: rgba(230, 81, 0, 0.6);
+            --bg-dark: #ffffff;
+            --bg-card: rgba(20, 20, 20, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* --- RESET & BASE --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(230, 81, 0, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+        }
+
+        /* --- BACKGROUND ANIMATION --- */
+        .ambient-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: pulseBg 10s infinite alternate;
+        }
+
+        @keyframes pulseBg {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 480px; /* Mobile focused max-width */
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER & LOGO --- */
+        header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInDown 1s var(--transition-smooth) forwards;
+        }
+
+        .logo-wrapper {
+            width: 140px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 15px var(--brand-glow));
+            transition: transform 0.5s var(--transition-smooth);
+        }
+        
+        .logo-wrapper:hover { transform: scale(1.05); }
+
+        .logo-img { width: 100%; height: auto; display: block; }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-align: center;
+            background: linear-gradient(135deg, #222222, var(--brand-orange-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- SEARCH INTERFACE --- */
+        .search-box {
+            width: 100%;
+            position: relative;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s var(--transition-smooth) 0.2s forwards;
+            opacity: 0;
+        }
+
+        .input-wrapper {
+            position: relative;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4px;
+            display: flex;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--brand-orange);
+            box-shadow: 0 0 30px var(--brand-glow);
+            transform: translateY(-2px);
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 16px 20px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        input::placeholder { color: var(--text-muted); }
+
+        button#track-btn {
+            background: linear-gradient(135deg, var(--brand-orange), #ff8f00);
+            border: none;
+            color: white;
+            padding: 0 25px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            white-space: nowrap;
+        }
+
+        button#track-btn:active { transform: scale(0.95); }
+
+        /* --- RESULTS SECTION --- */
+        #result-container {
+            width: 100%;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+        }
+
+        .greeting-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: zoomIn 0.6s var(--transition-smooth);
+        }
+
+        .greeting-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .greeting-card span { color: var(--brand-orange-light); }
+        .greeting-card p { color: var(--text-muted); font-size: 0.9rem; }
+        .saying { color: black;}
+        /* --- TIMELINE (The 2030 UI) --- */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 10px;
+            bottom: 20px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            opacity: 0.3; /* Dimmed by default */
+            transition: all 0.5s var(--transition-smooth);
+        }
+
+        /* The Dot */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: #333;
+            border-radius: 50%;
+            border: 2px solid var(--bg-dark);
+            box-shadow: 0 0 0 2px #333;
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+
+        .timeline-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #0f0e0e;
+        }
+
+        .timeline-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* --- STATES --- */
+        
+        /* Completed State */
+        .timeline-item.completed {
+            opacity: 1;
+        }
+        .timeline-item.completed::after {
+            background: var(--brand-orange);
+            box-shadow: 0 0 0 2px var(--brand-orange);
+        }
+        .timeline-item.completed h3 { color: var(--text-muted); text-decoration: line-through; }
+
+        /* Active State (The 2030 Magic) */
+        .timeline-item.active {
+            opacity: 1;
+            transform: scale(1.02) translateX(5px);
+        }
+
+        .timeline-item.active::after {
+            background: #313030;
+            width: 16px;
+            height: 16px;
+            left: -30px;
+            top: 2px;
+            box-shadow: 0 0 20px var(--brand-orange), 0 0 40px var(--brand-orange);
+            animation: pulseDot 2s infinite;
+        }
+        
+        .timeline-item.active h3 {
+            color: var(--brand-orange-light);
+            text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+            font-size: 1.1rem;
+        }
+
+        /* Animated Line Filling */
+        .progress-line {
+            position: absolute;
+            left: 7px;
+            top: 10px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--brand-orange), var(--brand-orange-light));
+            height: 0;
+            z-index: 1;
+            transition: height 1.5s cubic-bezier(0.45, 0, 0.55, 1);
+            box-shadow: 0 0 15px var(--brand-orange);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(230, 81, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); } }
+
+        /* --- ERROR MESSAGE --- */
+        .error-msg {
+            color: #ff3b3b;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: auto;
+            padding-top: 3rem;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.75rem;
+            text-align: center;
+        }
+    
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background Element -->
+    <div class="ambient-mesh"></div>
+
+    <div class="container">
+        <!-- Logo Header -->
+        <header>
+            <div class="logo-wrapper">
+                <img src="https://onlinegigs5.wordpress.com/wp-content/uploads/2026/01/20260128_1912427218177508679986788.png?w=768" alt="Dal's Trusted Imports" class="logo-img">
+            </div>
+            <h1>Track Your Shipment</h1>
+        </header>
+
+        <!-- Search Input -->
+        <div class="search-box">
+            <div class="input-wrapper">
+                <input type="text" id="tracking-input" placeholder="Enter Tracking Code (e.g., DAL001)">
+                <button id="track-btn">Track</button>
+            </div>
+            <div class="error-msg" id="error-msg">Tracking code not found</div>
+        </div>
+
+        <!-- Dynamic Results Area -->
+        <div id="result-container">
+            <div class="greeting-card">
+                <h2 id="user-greeting"><span class="saying">Hi, </span><span id="customer-name">...</span></h2>
+                <p>Here is the live status of your package.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="progress-line" id="progress-beam"></div>
+                <!-- Timeline items injected via JS -->
+                <div id="timeline-wrapper"></div>
+            </div>
+        </div>
+
+        <footer>
+            Dal's Trusted Imports &copy; 2026<br>Future Logistics System
+        </footer>
+    </div>
+
+    <script>
+        // ==========================================
+        //  MODERN WEB DEVELOPER CONFIGURATION
+        // ==========================================
+
+        // 1. DEFINE THE STAGES (Const)
+        const STAGES = [
+            "Order Placed (Awaiting Ship to China WH)",
+            "Arrived in China Warehouse",
+            "Shipped from China Warehouse",
+            "On Sea to Ghana (In Transit)",
+            "Arrived in Ghana Warehouse",
+            "Awaiting Shipping Fee",
+            "Available for Pickup",
+            "Delivered"
+        ];
+
+        // 2. --- DATABASE (UPDATE HERE) ---
+        // This is where you manually add customers.
+        // Key = Tracking Code (User types this)
+        // name = Customer Name
+        // stage = Number 1 to 8 (Corresponds to list above)
+        
+        const trackingDatabase = {
+            "DAL001": { name: "Bella Princess", stage: 4 }, 
+            "DAL002": { name: "Kwame Mensah", stage: 2 },
+            "DAL003": { name: "Sarah Johnson", stage: 7 },
+            "TEST8":  { name: "Future Client", stage: 8 }
+        };
+
+        // ==========================================
+        //  CORE LOGIC (2030 INTERACTIVITY)
+        // ==========================================
+
+        const trackBtn = document.getElementById('track-btn');
+        const inputField = document.getElementById('tracking-input');
+        const errorMsg = document.getElementById('error-msg');
+        const resultContainer = document.getElementById('result-container');
+        const timelineWrapper = document.getElementById('timeline-wrapper');
+        const progressBeam = document.getElementById('progress-beam');
+        const customerNameSpan = document.getElementById('customer-name');
+
+        // Listen for Click or Enter Key
+        trackBtn.addEventListener('click', processTracking);
+        inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') processTracking();
+        });
+
+        function processTracking() {
+            const code = inputField.value.trim().toUpperCase(); // Case insensitive
+            
+            // Reset UI
+            errorMsg.style.opacity = '0';
+            
+            if (trackingDatabase[code]) {
+                // SUCCESS: Found User
+                const data = trackingDatabase[code];
+                renderResults(data);
+            } else {
+                // FAIL: User not found
+                shakeInput();
+                errorMsg.style.opacity = '1';
+                resultContainer.style.display = 'none';
+            }
+        }
+
+        function renderResults(data) {
+            // 1. Set Name
+            customerNameSpan.textContent = data.name;
+
+            // 2. Build Timeline HTML
+            let html = '';
+            
+            STAGES.forEach((stageName, index) => {
+                const stageNum = index + 1;
+                let statusClass = '';
+                let desc = 'Pending';
+
+                if (stageNum < data.stage) {
+                    statusClass = 'completed';
+                    desc = 'Completed';
+                } else if (stageNum === data.stage) {
+                    statusClass = 'active';
+                    desc = 'Current Status';
+                }
+
+                html += `
+                    <div class="timeline-item ${statusClass}" style="animation-delay: ${index * 0.1}s">
+                        <div class="timeline-content">
+                            <h3>${stageName}</h3>
+                            <p>${desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            timelineWrapper.innerHTML = html;
+
+            // 3. Show Container with Animation
+            resultContainer.style.display = 'flex';
+            
+            // 4. Animate the Vertical Beam (Liquid fill effect)
+            // Calculate height percentage based on stage
+            // (Stage-1) / (Total-1) * 100 roughly
+            setTimeout(() => {
+                const totalStages = STAGES.length;
+                // Calculate percentage to fill up to the active dot
+                const percentage = ((data.stage - 1) / (totalStages - 1)) * 100;
+                // Cap at 100%
+                const finalHeight = Math.min(percentage, 100);
+                
+                // Set height (constrained by container height roughly)
+                // We use a calc to stop exactly at the dot center
+                // 35px is approx height of one item + margin
+                const items = document.querySelectorAll('.timeline-item');
+                if(items.length > 0) {
+                     // Find the active item or last completed
+                    const activeIndex = data.stage - 1;
+                    const activeItem = items[activeIndex];
+                    
+                    // Calculation for smooth beam logic
+                    const distance = activeItem.offsetTop;
+                    progressBeam.style.height = (distance) + 'px';
+                }
+            }, 300); // Slight delay to allow DOM to paint
+            
+            // Scroll to results on mobile
+            setTimeout(() => {
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function shakeInput() {
+            const wrapper = document.querySelector('.input-wrapper');
+            wrapper.style.transform = 'translateX(10px)';
+            setTimeout(() => { wrapper.style.transform = 'translateX(-10px)'; }, 100);
+            setTimeout(() => { wrapper.style.transform = 'translateX(10px)'; }, 200);
+            setTimeout(() => { wrapper.style.transform = 'translateX(0)'; }, 300);
+        }
+
+    </script>
+</body>
+</html>
