@@ -5,22 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dal's Trusted Imports | Global Tracking</title>
     <style>
-        /* --- 2030 CORE VARIABLES --- */
+        /* --- CORE VARIABLES --- */
         :root {
             --brand-orange: #e65100;
             --brand-orange-light: #ff9800;
             --brand-glow: rgba(230, 81, 0, 0.6);
-            --bg-dark: #ffffff;
-            --bg-card: rgba(20, 20, 20, 0.7);
+            --bg-dark: #050608;
+            --bg-card: rgba(15, 16, 20, 0.9);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #ffffff;
-            --text-muted: #888888;
+            --text-main: #f5f5f7;
+            --text-muted: #9fa3af;
             --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* --- RESET & BASE --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
-        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
@@ -30,31 +35,31 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(230, 81, 0, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(230, 81, 0, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 45%);
         }
 
         /* --- BACKGROUND ANIMATION --- */
         .ambient-mesh {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             z-index: -1;
             filter: blur(80px);
-            opacity: 0.6;
+            opacity: 0.5;
             animation: pulseBg 10s infinite alternate;
         }
 
         @keyframes pulseBg {
             0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+            100% { transform: scale(1.05); }
         }
 
         /* --- CONTAINER --- */
         .container {
             width: 100%;
-            max-width: 480px; /* Mobile focused max-width */
-            padding: 2rem 1.5rem;
+            max-width: 520px;
+            padding: 2.5rem 1.5rem 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -67,39 +72,58 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             opacity: 0;
-            animation: fadeInDown 1s var(--transition-smooth) forwards;
+            animation: fadeInDown 0.9s var(--transition-smooth) forwards;
         }
 
         .logo-wrapper {
-            width: 140px;
-            height: auto;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 15px var(--brand-glow));
-            transition: transform 0.5s var(--transition-smooth);
+            width: 180px;
+            max-width: 60vw;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            filter: drop-shadow(0 0 18px var(--brand-glow));
+            transition: transform 0.5s var(--transition-smooth), filter 0.5s var(--transition-smooth);
         }
-        
-        .logo-wrapper:hover { transform: scale(1.05); }
 
-        .logo-img { width: 270px; height: 300px; display: block; }
+        .logo-wrapper:hover {
+            transform: translateY(-4px) scale(1.03);
+            filter: drop-shadow(0 0 26px var(--brand-glow));
+        }
+
+        .logo-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: 800;
             letter-spacing: -0.5px;
             text-align: center;
-            background: linear-gradient(135deg, #222222, var(--brand-orange-light));
+            background: linear-gradient(135deg, #f5f5f5, var(--brand-orange-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .subtitle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            text-align: center;
         }
 
         /* --- SEARCH INTERFACE --- */
         .search-box {
             width: 100%;
             position: relative;
+            margin-top: 1.75rem;
             margin-bottom: 2rem;
-            animation: fadeInUp 1s var(--transition-smooth) 0.2s forwards;
+            animation: fadeInUp 0.9s var(--transition-smooth) 0.1s forwards;
             opacity: 0;
         }
 
@@ -109,72 +133,91 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            border-radius: 999px;
             padding: 4px;
             display: flex;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            transition: all 0.4s var(--transition-smooth);
+            gap: 4px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.75);
+            transition: all 0.35s var(--transition-smooth);
         }
 
         .input-wrapper:focus-within {
             border-color: var(--brand-orange);
             box-shadow: 0 0 30px var(--brand-glow);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         input {
             width: 100%;
             background: transparent;
             border: none;
-            padding: 16px 20px;
-            color: white;
-            font-size: 1rem;
+            padding: 14px 18px;
+            color: var(--text-main);
+            font-size: 0.98rem;
             font-weight: 500;
         }
-        
-        input::placeholder { color: var(--text-muted); }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
 
         button#track-btn {
             background: linear-gradient(135deg, var(--brand-orange), #ff8f00);
             border: none;
             color: white;
-            padding: 0 25px;
-            border-radius: 20px;
+            padding: 0 20px;
+            border-radius: 999px;
             font-weight: 700;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
             white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.6);
         }
 
-        button#track-btn:active { transform: scale(0.95); }
+        button#track-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 26px rgba(230, 81, 0, 0.8);
+        }
+
+        button#track-btn:active {
+            transform: translateY(1px) scale(0.97);
+            box-shadow: 0 4px 15px rgba(230, 81, 0, 0.55);
+        }
 
         /* --- RESULTS SECTION --- */
         #result-container {
             width: 100%;
-            display: none; /* Hidden by default */
+            display: none;
             flex-direction: column;
         }
 
         .greeting-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(12, 13, 18, 0.95);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            animation: zoomIn 0.6s var(--transition-smooth);
+            border-radius: 18px;
+            padding: 1.4rem 1.3rem;
+            margin-bottom: 1.8rem;
+            text-align: left;
+            animation: zoomIn 0.5s var(--transition-smooth);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75);
         }
 
         .greeting-card h2 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.15rem;
+            margin-bottom: 0.35rem;
         }
-        
+
         .greeting-card span { color: var(--brand-orange-light); }
-        .greeting-card p { color: var(--text-muted); font-size: 0.9rem; }
-        .saying { color: black;}
-        /* --- TIMELINE (The 2030 UI) --- */
+
+        .greeting-card p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .saying { color: var(--text-main); }
+
+        /* --- TIMELINE --- */
         .timeline {
             position: relative;
             padding-left: 30px;
@@ -185,20 +228,19 @@
             position: absolute;
             left: 7px;
             top: 10px;
-            bottom: 20px;
+            bottom: 18px;
             width: 2px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 2px;
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 2.5rem;
-            opacity: 0.3; /* Dimmed by default */
-            transition: all 0.5s var(--transition-smooth);
+            margin-bottom: 2.2rem;
+            opacity: 0.35;
+            transition: all 0.45s var(--transition-smooth);
         }
 
-        /* The Dot */
         .timeline-item::after {
             content: '';
             position: absolute;
@@ -206,19 +248,26 @@
             top: 5px;
             width: 10px;
             height: 10px;
-            background: #333;
+            background: #2b2d33;
             border-radius: 50%;
-            border: 2px solid var(--bg-dark);
-            box-shadow: 0 0 0 2px #333;
-            transition: all 0.5s ease;
+            border: 2px solid #050608;
+            box-shadow: 0 0 0 2px #2b2d33;
+            transition: all 0.4s ease;
             z-index: 2;
         }
 
+        .timeline-content {
+            background: rgba(12, 13, 18, 0.88);
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
         .timeline-content h3 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 4px;
-            color: #0f0e0e;
+            margin-bottom: 2px;
+            color: #f1f1f3;
         }
 
         .timeline-content p {
@@ -226,41 +275,44 @@
             color: var(--text-muted);
         }
 
-        /* --- STATES --- */
-        
-        /* Completed State */
+        /* Completed */
         .timeline-item.completed {
-            opacity: 1;
+            opacity: 0.9;
         }
+
         .timeline-item.completed::after {
             background: var(--brand-orange);
             box-shadow: 0 0 0 2px var(--brand-orange);
         }
-        .timeline-item.completed h3 { color: var(--text-muted); text-decoration: line-through; }
 
-        /* Active State (The 2030 Magic) */
+        .timeline-item.completed h3 {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        /* Active */
         .timeline-item.active {
             opacity: 1;
-            transform: scale(1.02) translateX(5px);
+            transform: scale(1.02) translateX(4px);
         }
 
         .timeline-item.active::after {
-            background: #313030;
+            background: #111214;
             width: 16px;
             height: 16px;
             left: -30px;
-            top: 2px;
-            box-shadow: 0 0 20px var(--brand-orange), 0 0 40px var(--brand-orange);
+            top: 1px;
+            box-shadow: 0 0 20px var(--brand-orange), 0 0 42px var(--brand-orange);
             animation: pulseDot 2s infinite;
         }
-        
+
         .timeline-item.active h3 {
             color: var(--brand-orange-light);
             text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        /* Animated Line Filling */
+        /* Progress line */
         .progress-line {
             position: absolute;
             left: 7px;
@@ -269,23 +321,39 @@
             background: linear-gradient(to bottom, var(--brand-orange), var(--brand-orange-light));
             height: 0;
             z-index: 1;
-            transition: height 1.5s cubic-bezier(0.45, 0, 0.55, 1);
+            transition: height 1.4s cubic-bezier(0.45, 0, 0.55, 1);
             box-shadow: 0 0 15px var(--brand-orange);
         }
 
         /* --- ANIMATIONS --- */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(230, 81, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); } }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.94); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 81, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); }
+        }
 
         /* --- ERROR MESSAGE --- */
         .error-msg {
-            color: #ff3b3b;
+            color: #ff5252;
             text-align: center;
             margin-top: 10px;
-            font-size: 0.9rem;
-            height: 20px;
+            font-size: 0.85rem;
+            min-height: 18px;
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -293,17 +361,32 @@
         /* --- FOOTER --- */
         footer {
             margin-top: auto;
-            padding-top: 3rem;
-            color: gray;
-            font-size: 0.75rem;
+            padding-top: 2.5rem;
+            color: #7a7f8a;
+            font-size: 0.74rem;
             text-align: center;
         }
-    
+
+        footer span {
+            color: var(--brand-orange-light);
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .greeting-card {
+                padding: 1.2rem 1.1rem;
+            }
+            .timeline-item {
+                margin-bottom: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Background Element -->
     <div class="ambient-mesh"></div>
 
     <div class="container">
@@ -313,6 +396,7 @@
                 <img src="https://onlinegigs5.wordpress.com/wp-content/uploads/2026/02/20260214_0443582675317301608970447.png?w=768" alt="Dal's Trusted Imports" class="logo-img">
             </div>
             <h1>Track Your Shipment</h1>
+            <p class="subtitle">Real‑time logistics updates from China to Ghana.</p>
         </header>
 
         <!-- Search Input -->
@@ -327,28 +411,25 @@
         <!-- Dynamic Results Area -->
         <div id="result-container">
             <div class="greeting-card">
-                <h2 id="user-greeting"><span class="saying">Hi, </span><span id="customer-name">...</span></h2>
+                <h2 id="user-greeting">
+                    <span class="saying">Hi, </span>
+                    <span id="customer-name">...</span>
+                </h2>
                 <p>Here is the live status of your package.</p>
             </div>
 
             <div class="timeline">
                 <div class="progress-line" id="progress-beam"></div>
-                <!-- Timeline items injected via JS -->
                 <div id="timeline-wrapper"></div>
             </div>
         </div>
 
         <footer>
-            Dal's Trusted Imports &copy; 2026<br>DTI Logistics System
+            <span>Dal's Trusted Imports</span> &copy; 2026<br>DTI Logistics System
         </footer>
     </div>
 
     <script>
-        // ==========================================
-        //  MODERN WEB DEVELOPER CONFIGURATION
-        // ==========================================
-
-        // 1. DEFINE THE STAGES (Const)
         const STAGES = [
             "Order Placed (Awaiting Ship to China WH)",
             "Arrived in China Warehouse",
@@ -360,20 +441,10 @@
             "Delivered"
         ];
 
-        // 2. --- DATABASE (UPDATE HERE) ---
-        // This is where you manually add customers.
-        // Key = Tracking Code (User types this)
-        // name = Customer Name
-        // stage = Number 1 to 8 (Corresponds to list above)
-        
         const trackingDatabase = {
-            "DAL-ML3SHE2W-IB": { name: "MAVIS BLESSING GYASIE", stage: 1 }, 
+            "DAL-ML3SHE2W-IB": { name: "MAVIS BLESSING GYASIE", stage: 1 },
             "TEST8":  { name: "Future Client", stage: 8 }
         };
-
-        // ==========================================
-        //  CORE LOGIC (2030 INTERACTIVITY)
-        // ==========================================
 
         const trackBtn = document.getElementById('track-btn');
         const inputField = document.getElementById('tracking-input');
@@ -383,24 +454,19 @@
         const progressBeam = document.getElementById('progress-beam');
         const customerNameSpan = document.getElementById('customer-name');
 
-        // Listen for Click or Enter Key
         trackBtn.addEventListener('click', processTracking);
         inputField.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') processTracking();
         });
 
         function processTracking() {
-            const code = inputField.value.trim().toUpperCase(); // Case insensitive
-            
-            // Reset UI
+            const code = inputField.value.trim().toUpperCase();
             errorMsg.style.opacity = '0';
-            
+
             if (trackingDatabase[code]) {
-                // SUCCESS: Found User
                 const data = trackingDatabase[code];
                 renderResults(data);
             } else {
-                // FAIL: User not found
                 shakeInput();
                 errorMsg.style.opacity = '1';
                 resultContainer.style.display = 'none';
@@ -408,12 +474,10 @@
         }
 
         function renderResults(data) {
-            // 1. Set Name
             customerNameSpan.textContent = data.name;
 
-            // 2. Build Timeline HTML
             let html = '';
-            
+
             STAGES.forEach((stageName, index) => {
                 const stageNum = index + 1;
                 let statusClass = '';
@@ -428,7 +492,7 @@
                 }
 
                 html += `
-                    <div class="timeline-item ${statusClass}" style="animation-delay: ${index * 0.1}s">
+                    <div class="timeline-item ${statusClass}" style="animation-delay: ${index * 0.08}s">
                         <div class="timeline-content">
                             <h3>${stageName}</h3>
                             <p>${desc}</p>
@@ -438,56 +502,31 @@
             });
 
             timelineWrapper.innerHTML = html;
-
-            // 3. Show Container with Animation
             resultContainer.style.display = 'flex';
-            
-            // 4. Animate the Vertical Beam (Liquid fill effect)
-            // Calculate height percentage based on stage
-            // (Stage-1) / (Total-1) * 100 roughly
+
             setTimeout(() => {
-                const totalStages = STAGES.length;
-                // Calculate percentage to fill up to the active dot
-                const percentage = ((data.stage - 1) / (totalStages - 1)) * 100;
-                // Cap at 100%
-                const finalHeight = Math.min(percentage, 100);
-                
-                // Set height (constrained by container height roughly)
-                // We use a calc to stop exactly at the dot center
-                // 35px is approx height of one item + margin
                 const items = document.querySelectorAll('.timeline-item');
-                if(items.length > 0) {
-                     // Find the active item or last completed
+                if (items.length > 0) {
                     const activeIndex = data.stage - 1;
-                    const activeItem = items[activeIndex];
-                    
-                    // Calculation for smooth beam logic
+                    const targetIndex = Math.min(activeIndex, items.length - 1);
+                    const activeItem = items[targetIndex];
                     const distance = activeItem.offsetTop;
-                    progressBeam.style.height = (distance) + 'px';
+                    progressBeam.style.height = distance + 'px';
                 }
-            }, 300); // Slight delay to allow DOM to paint
-            
-            // Scroll to results on mobile
+            }, 250);
+
             setTimeout(() => {
                 resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
+            }, 150);
         }
 
         function shakeInput() {
             const wrapper = document.querySelector('.input-wrapper');
             wrapper.style.transform = 'translateX(10px)';
             setTimeout(() => { wrapper.style.transform = 'translateX(-10px)'; }, 100);
-            setTimeout(() => { wrapper.style.transform = 'translateX(10px)'; }, 200);
+            setTimeout(() => { wrapper.style.transform = 'translateX(6px)'; }, 200);
             setTimeout(() => { wrapper.style.transform = 'translateX(0)'; }, 300);
         }
-
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
